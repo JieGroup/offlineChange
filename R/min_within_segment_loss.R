@@ -19,7 +19,7 @@
 #'   minimal. Default is squared root of number of observations. Must be integer.
 #' @param cpp Option to accelerate using rcpp. Default is TRUE.
 #'
-#' @useDynLib changepoints
+#' @useDynLib offlineChange
 #'
 #' @import stats
 #' @importFrom Rcpp evalCpp
@@ -28,6 +28,7 @@
 #'   \item{num_change_point}{optimal number of change points.}
 #'   \item{change_point}{location of change points.}
 #' @exportPattern ^[[:alpha:]]+
+#' @export
 #' @examples
 #' a<-matrix(rnorm(40,mean=-1,sd=1),nrow=20,ncol=2)
 #' b<-matrix(rnorm(120,mean=0,sd=1),nrow=60,ncol=2)
