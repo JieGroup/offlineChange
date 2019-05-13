@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // OrderKmeansCpp
 List OrderKmeansCpp(NumericMatrix x, int K, int num_init);
-RcppExport SEXP _changepoints_OrderKmeansCpp(SEXP xSEXP, SEXP KSEXP, SEXP num_initSEXP) {
+RcppExport SEXP _offlineChange_OrderKmeansCpp(SEXP xSEXP, SEXP KSEXP, SEXP num_initSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,11 +20,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_changepoints_OrderKmeansCpp", (DL_FUNC) &_changepoints_OrderKmeansCpp, 3},
+    {"_offlineChange_OrderKmeansCpp", (DL_FUNC) &_offlineChange_OrderKmeansCpp, 3},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_changepoints(DllInfo *dll) {
+RcppExport void R_init_offlineChange(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

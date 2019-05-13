@@ -14,9 +14,8 @@ PeakRange(score, tolerance = 1, point_max = 5)
 \item{point_max}{The largest candidate number of change points.}
 }
 \value{
-A list of following:
-        n_peak_range: The number of peak ranges.
-        peak_range: The location of peak ranges.
+\item{n_peak_range}{The number of peak ranges.}
+        \item{peak_range}{The location of peak ranges.}
 }
 \description{
 Select the narrow peak ranges.

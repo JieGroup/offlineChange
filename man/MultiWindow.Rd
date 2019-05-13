@@ -6,7 +6,7 @@
 \usage{
 MultiWindow(y, window_list = c(100, 50, 20, 10, 5), point_max = 5,
   prior_range = NULL, get_mle = GetMle, penalty = "bic",
-  seg_min = 1, num_init = "sqrt", tolerance = 1)
+  seg_min = 1, num_init = NULL, tolerance = 1, cpp = TRUE)
 }
 \arguments{
 \item{y}{The original data to find change points. Must be one dimensional
@@ -32,12 +32,14 @@ data.}
 \item{num_init}{The number of repetition times, in order to avoid local
 minimal. Default is squared root of number of transformed data.}
 
-\item{tolerance}{The tolerance level. The selected narrow ranges are with
+\item{tolerance}{The tolerance level. The selected narrow ranges are with}
+
+\item{cpp}{Option to accelerate using rcpp. Default is TRUE.
 score at least S-tolerance.}
 }
 \value{
-A list of following elements: n_peak_range: The number of peak ranges.
-  peak_ranges: The location of peak ranges.
+\item{n_peak_range}{The number of peak ranges.}
+  \item{peak_ranges}{The location of peak ranges.}
 }
 \description{
 Use a sequence of window sizes to capture ranges of change points.

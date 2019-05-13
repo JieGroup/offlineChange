@@ -12,7 +12,7 @@ GetMle(y, window_size)
 \item{window_size}{The number of observations each window contains.}
 }
 \value{
-x: The transformed data, which are the estimated coefficients of original data.
+\item{x}{The transformed data, which are the estimated coefficients of original data.}
 }
 \description{
 Transform N dependent data into approximated independent data (N/window_size) x (L+1).

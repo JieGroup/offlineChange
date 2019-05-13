@@ -4,7 +4,7 @@
 \alias{OrderKmeans}
 \title{Detect Location of Change Points of Independent Data}
 \usage{
-OrderKmeans(x, K = 4, num_init = "sqrt")
+OrderKmeans(x, K = 4, num_init = 10)
 }
 \arguments{
 \item{x}{The data to find change points with dimension N x D, must be matrix}
@@ -12,15 +12,14 @@ OrderKmeans(x, K = 4, num_init = "sqrt")
 \item{K}{The number of change points.}
 
 \item{num_init}{The number of repetition times, in order to avoid local minimal.
-Default is squared root of number of observations.}
+Default is squared root of number of observations. Must be integer.}
 }
 \value{
-A list contains following elements:
-        wgss_sum: total within segment sum of squared distances to the segment
-                 mean (wgss) of all segments.
-        num_each:number of observations of each segment
-        wgss: total wgss of each segment.
-        change_point: location of optimal change points.
+\item{wgss_sum}{total within segment sum of squared distances to the segment
+                 mean (wgss) of all segments.}
+        \item{num_each}{number of observations of each segment}
+        \item{wgss}{total wgss of each segment.}
+        \item{change_point}{location of optimal change points.}
 }
 \description{
 Detect the location of change points based on minimizing within segment quadratic
@@ -36,7 +35,7 @@ b<-matrix(rnorm(120,mean=0,sd=1),nrow=60,ncol=2)
 c<-matrix(rnorm(40,mean=1,sd=1),nrow=20,ncol=2)
 x<-rbind(a,b,c)
 OrderKmeans(x,K=3)
-OrderKmeans(x,K=3,num_init="sqrt")
+OrderKmeans(x,K=3,num_init=8)
 }
 \references{
 J. Ding, Y. Xiang, L. Shen, and V. Tarokh, \emph{Multiple Change Point Analysis:
