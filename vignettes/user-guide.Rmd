@@ -7,6 +7,10 @@ output:
     toc: true
     # theme: united
     # highlight: zenburn
+vignette: >
+  %\VignetteIndexEntry{user-guide}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include=FALSE}
@@ -65,8 +69,10 @@ result <- MultiWindow(y,
                       get_mle     = GetMle, 
                       penalty     = c("bic","aic"), 
                       seg_min     = 1, 
-                      num_init    = "sqrt", 
-                      tolerance   = 1)
+                      num_init    = NULL, 
+                      tolerance   = 1,
+                      cpp         = TRUE
+                      )
 ```
 
 Based on the peak ranges returned, users can use the following function to get exact change points:
@@ -95,7 +101,6 @@ result <- MultiWindow(y,
                       window_list = c(100, 50, 20, 10, 5), 
                       prior_range = list(c(30,200), c(220,400)),
                       get_mle     = GetMle, 
-                      num_init    = "sqrt", 
                       tolerance   = 1)
 ```
 Based on the peak ranges returned, users can use the following function to get exact change points:
@@ -127,7 +132,8 @@ result <- ChangePoints(x,
                        point_max = 5,
                        penalty   = c("bic","aic"),
                        seg_min   = 1,
-                       num_init  = "sqrt")
+                       num_init  = NULL,
+                       cpp       = TRUE)
 ```
 
 ## Detect change points of independent data without prior ranges but with true number of change points
@@ -139,7 +145,7 @@ result <- OrderKmeans(x, K = 2)
 ```
 And the users can also change the suggested setting of arguments:
 ```{r eval=FALSE}
-result <- OrderKmeans(x, K = 2, num_init="sqrt")
+result <- OrderKmeans(x, K = 2, num_init=NULL)
 ```
 
 ## Detect change points of independent data with prior change ranges
@@ -152,5 +158,5 @@ result <- PriorRangeOrderKmeans(x, prior_range_x = list(l1,l2))
 ```
 And the users can also modify some default arguments:
 ```{r eval=FALSE}
-result <- PriorRangeOrderKmeans(x, prior_range_x, num_init="sqrt")
+result <- PriorRangeOrderKmeans(x, prior_range_x, num_init=NULL)
 ```
