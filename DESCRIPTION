@@ -9,7 +9,9 @@ Depends: R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Imports: stats (>= 3.5.1)
+Imports: stats (>= 3.5.1),
+         Rcpp (>= 0.12.15)
+LinkingTo: Rcpp
 RoxygenNote: 6.1.1.9000
 Suggests: 
     knitr,
