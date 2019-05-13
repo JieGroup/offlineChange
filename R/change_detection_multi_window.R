@@ -73,7 +73,7 @@ MultiWindow <- function(y,
                         num_init    = NULL,
                         tolerance   = 1,
                         cpp         = TRUE
-) {
+                        ) {
   len <- length(y)
   n_window_type <- length(window_list)
   # initialize score matrix
