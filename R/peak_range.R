@@ -15,9 +15,9 @@
 #' @param tolerance The tolerance level , the selected narrow ranges are with score at least S-tolerance
 #' @param point_max The largest candidate number of change points.
 #'
-#' @return A list of following:
-#'         n_peak_range: The number of peak ranges.
-#'         peak_range: The location of peak ranges.
+#' @return
+#'         \item{n_peak_range}{The number of peak ranges.}
+#'         \item{peak_range}{The location of peak ranges.}
 #' @export
 PeakRange<-function(score,tolerance=1,point_max=5) {
   N<-dim(score)[1]
