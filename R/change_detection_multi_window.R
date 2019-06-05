@@ -72,7 +72,8 @@ MultiWindow <- function(y,
                         seg_min     = 1,
                         num_init    = NULL,
                         tolerance   = 1,
-                        cpp         = TRUE
+                        cpp         = TRUE,
+                        ret_score   = FALSE
                         ) {
   len <- length(y)
   n_window_type <- length(window_list)
@@ -127,6 +128,10 @@ MultiWindow <- function(y,
     point_max <- length(prior_range)
   }
   peakranges <- PeakRange(score=score,tolerance=tolerance,point_max=point_max)
-  return(peakranges)
+  result <- list(n_peak_range=peakranges$n_peak_range, peak_range=peakranges$peak_range)
+  if (ret_score) {
+   result$score <- score
+  }
+  return(result)
   #return(score)
 }
