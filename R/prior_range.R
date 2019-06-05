@@ -16,12 +16,12 @@
 #' @param x The data to find change points.
 #' @param prior_range_x The prior ranges that contain change points.
 #' @param num_init The number of repetition times, in order to avoid local minimal.
-#'                 Default is squared root of number of observations.
+#'                 Default is squared root of number of observations. Must be integer.
 #' @import stats
 #'
-#' @return A list contains following elements:
-#'         num_change_point: optimal number of change points.
-#'         change_point: location of change points.
+#' @return
+#'         \item{num_change_point}{optimal number of change points.}
+#'         \item{change_point}{location of change points.}
 #' @export
 #'
 #' @examples
@@ -33,7 +33,7 @@
 #' l2<-c(75,100)
 #' prior_range_x<-list(l1,l2)
 #' PriorRangeOrderKmeans(x,prior_range_x=list(l1,l2))
-PriorRangeOrderKmeans<-function(x,prior_range_x,num_init="sqrt") {
+PriorRangeOrderKmeans<-function(x,prior_range_x,num_init=NULL) {
   if (class(x) != "matrix") {
     stop("Dataset must be matrix form!")
   }
@@ -53,8 +53,8 @@ PriorRangeOrderKmeans<-function(x,prior_range_x,num_init="sqrt") {
   # randomize initial change points several times to avoid local optima
   best_wgss<-Inf
   # set the random initialization times
-  if (num_init == "sqrt") {
-    num_init <- sqrt(dim(x)[1])
+  if (is.null(num_init)) {
+    num_init <- floor(sqrt(dim(x)[1]))
   }
   for (j in 1:num_init) {
     #test
@@ -152,9 +152,9 @@ PriorRangeOrderKmeans<-function(x,prior_range_x,num_init="sqrt") {
         change_point[i] <- change_point[i] - best_ell
         num_each[i] <- num_each[i] - best_ell
         num_each[i+1] <- num_each[i+1] + best_ell
-#        wgss_part <- apply((best_candidatePart - matrix(best_mean_candidatePart,nrow=best_ell,ncol=D,byrow=TRUE))^2,2,sum)
-#        wgss_each[i,] <- wgss_each[i,] - best_decrease - wgss_part
-#        wgss_each[i+1,] <- wgss_each[i+1,] + best_increase + wgss_part
+        #        wgss_part <- apply((best_candidatePart - matrix(best_mean_candidatePart,nrow=best_ell,ncol=D,byrow=TRUE))^2,2,sum)
+        #        wgss_each[i,] <- wgss_each[i,] - best_decrease - wgss_part
+        #        wgss_each[i+1,] <- wgss_each[i+1,] + best_increase + wgss_part
         if (i == 1) {
           wgss_each[i, ] <- apply(matrix(x[1:change_point[i],],ncol=D),2,stats::var) * (num_each[i]-1)
         } else {

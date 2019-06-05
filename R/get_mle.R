@@ -10,7 +10,8 @@
 #' @param y The original data to find change points.
 #' @param window_size The number of observations each window contains.
 #' @import stats
-#' @return x: The transformed data, which are the estimated coefficients of original data.
+#' @return
+#'   \item{x}{The transformed data, which are the estimated coefficients of original data.}
 #' @export
 #' @examples
 #' N <- 1000
@@ -85,7 +86,8 @@ GetMle<- function(y, window_size) {
 #' @param y The original data to find change points.
 #' @param window_size The number of observations each window contains.
 #'
-#' @return x: The transformed data, which are the estimated coefficients of original data.
+#' @return
+#'   \item{x}{The transformed data, which are the estimated coefficients of original data.}
 #' @export
 #' @examples
 #' N = 1000
@@ -120,21 +122,21 @@ GetMleAr <- function(y, window_size) {
     est <- stats::ar(y[(1 + (n - 1) * window_size):min(n * window_size, N)], aic = FALSE, order.max = L, method = "ols")
     x[n, 1] <- est$x.intercept
     x[n, 2:(L + 1)] <- est$ar
-#    if (method == "ols") {
-#      est<-ar(y[(1+(n-1)*window_size):min(n*window_size,N)],aic=FALSE,order.max = L,method="ols")
-#      x[n,1]<-est$x.intercept
-#      x[n,2:(L+1)]<-est$ar
-#    }
-#    if (method == "mle") {
-#      est<-ar(x[(1+(n-1)*window_size):min(n*window_size,N)],aic=FALSE,order.max = L,method="mle")
-#      x_transformed[n,1]<-est$x.mean
-#      x_transformed[n,2:(L+1)]<-est$ar
-#    }
-#    if ((method == "yule-walker") || (method == "yw")) {
-#      est<-ar(x[(1+(n-1)*window_size):min(n*window_size,N)],aic=FALSE,order.max = L,method="yule-walker")
-#      x_transformed[n,1]<-est$x.mean
-#      x_transformed[n,2:(L+1)]<-est$ar
-#    }
+    #    if (method == "ols") {
+    #      est<-ar(y[(1+(n-1)*window_size):min(n*window_size,N)],aic=FALSE,order.max = L,method="ols")
+    #      x[n,1]<-est$x.intercept
+    #      x[n,2:(L+1)]<-est$ar
+    #    }
+    #    if (method == "mle") {
+    #      est<-ar(x[(1+(n-1)*window_size):min(n*window_size,N)],aic=FALSE,order.max = L,method="mle")
+    #      x_transformed[n,1]<-est$x.mean
+    #      x_transformed[n,2:(L+1)]<-est$ar
+    #    }
+    #    if ((method == "yule-walker") || (method == "yw")) {
+    #      est<-ar(x[(1+(n-1)*window_size):min(n*window_size,N)],aic=FALSE,order.max = L,method="yule-walker")
+    #      x_transformed[n,1]<-est$x.mean
+    #      x_transformed[n,2:(L+1)]<-est$ar
+    #    }
   }
   return(x)
 }

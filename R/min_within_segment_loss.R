@@ -10,16 +10,24 @@
 #' @references J. Ding, Y. Xiang, L. Shen, and V. Tarokh, \emph{Multiple Change
 #' Point Analysis: Fast Implementation and Strong Consistency}. IEEE
 #' Transactions on Signal Processing, vol. 65, no. 17, pp. 4495-4510, 2017.
+#'
 #' @param x The data to find change points.
 #' @param point_max The largest candidate number of change points.
 #' @param penalty Penalty term. Default is "bic".
 #' @param seg_min Minimal segment size, must be positive integer.
 #' @param num_init The number of repetition times, in order to avoid local
-#'   minimal. Default is squared root of number of observations.
+#'   minimal. Default is squared root of number of observations. Must be integer.
+#' @param cpp Option to accelerate using rcpp. Default is TRUE.
+#'
+#' @useDynLib offlineChange
 #'
 #' @import stats
-#' @return A list with following elements: num_change_point: optimal number of
-#'   change points. change_point: location of change points.
+#' @importFrom Rcpp evalCpp
+#'
+#' @return
+#'   \item{num_change_point}{optimal number of change points.}
+#'   \item{change_point}{location of change points.}
+#' @exportPattern ^[[:alpha:]]+
 #' @export
 #' @examples
 #' a<-matrix(rnorm(40,mean=-1,sd=1),nrow=20,ncol=2)
@@ -29,7 +37,7 @@
 #' ChangePoints(x,point_max=5)
 #' ChangePoints(x,point_max=5,penalty="hq")
 
-ChangePoints <- function(x,point_max=5,penalty="bic",seg_min=1,num_init="sqrt"){
+ChangePoints <- function(x,point_max=5,penalty="bic",seg_min=1,num_init=NULL,cpp=TRUE){
   N <- dim(x)[1]
   D <- dim(x)[2]
   #sigma2<-sum(apply(x,2,var))
@@ -45,7 +53,15 @@ ChangePoints <- function(x,point_max=5,penalty="bic",seg_min=1,num_init="sqrt"){
 
   for (K in 1:point_max) {
     #K=3
-    res <- OrderKmeans(x,K,num_init=num_init)
+    # set the random initialization times
+    if (is.null(num_init)) {
+      num_init <- floor(sqrt(dim(x)[1]))
+    }
+    if (cpp == TRUE) {
+      res <- OrderKmeansCpp(x,K,num_init=num_init)
+    } else {
+      res <- OrderKmeans(x,K,num_init=num_init)
+    }
     wgss <- res$wgss
     num_each <- res$num_each
     change_point <- res$change_point
@@ -107,14 +123,14 @@ ChangePoints <- function(x,point_max=5,penalty="bic",seg_min=1,num_init="sqrt"){
 #' @param x The data to find change points with dimension N x D, must be matrix
 #' @param K The number of change points.
 #' @param num_init The number of repetition times, in order to avoid local minimal.
-#'                 Default is squared root of number of observations.
+#'                 Default is squared root of number of observations. Must be integer.
 #'
-#' @return A list contains following elements:
-#'         wgss_sum: total within segment sum of squared distances to the segment
-#'                  mean (wgss) of all segments.
-#'         num_each:number of observations of each segment
-#'         wgss: total wgss of each segment.
-#'         change_point: location of optimal change points.
+#' @return
+#'         \item{wgss_sum}{total within segment sum of squared distances to the segment
+#'                  mean (wgss) of all segments.}
+#'         \item{num_each}{number of observations of each segment}
+#'         \item{wgss}{total wgss of each segment.}
+#'         \item{change_point}{location of optimal change points.}
 #' @export
 #' @examples
 #' a<-matrix(rnorm(40,mean=-1,sd=1),nrow=20,ncol=2)
@@ -122,8 +138,8 @@ ChangePoints <- function(x,point_max=5,penalty="bic",seg_min=1,num_init="sqrt"){
 #' c<-matrix(rnorm(40,mean=1,sd=1),nrow=20,ncol=2)
 #' x<-rbind(a,b,c)
 #' OrderKmeans(x,K=3)
-#' OrderKmeans(x,K=3,num_init="sqrt")
-OrderKmeans <- function(x, K=4, num_init="sqrt") {
+#' OrderKmeans(x,K=3,num_init=8)
+OrderKmeans <- function(x, K=4, num_init=10) {
   if (class(x) != "matrix") {
     stop("Dataset must be matrix form!")
   }
@@ -147,10 +163,7 @@ OrderKmeans <- function(x, K=4, num_init="sqrt") {
 
     # randomize initial change points several times to avoid local optima
     best_wgss_sum<-Inf
-    # set the random initialization times
-    if (num_init == "sqrt") {
-      num_init <- sqrt(dim(x)[1])
-    }
+
     for (j in 1:num_init) {
       #test
       #cat("j=",j)

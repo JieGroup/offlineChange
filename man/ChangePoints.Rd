@@ -5,7 +5,7 @@
 \title{Detect Number and Location of Change Points of Independent Data}
 \usage{
 ChangePoints(x, point_max = 5, penalty = "bic", seg_min = 1,
-  num_init = "sqrt")
+  num_init = NULL, cpp = TRUE)
 }
 \arguments{
 \item{x}{The data to find change points.}
@@ -17,11 +17,13 @@ ChangePoints(x, point_max = 5, penalty = "bic", seg_min = 1,
 \item{seg_min}{Minimal segment size, must be positive integer.}
 
 \item{num_init}{The number of repetition times, in order to avoid local
-minimal. Default is squared root of number of observations.}
+minimal. Default is squared root of number of observations. Must be integer.}
+
+\item{cpp}{Option to accelerate using rcpp. Default is TRUE.}
 }
 \value{
-A list with following elements: num_change_point: optimal number of
-  change points. change_point: location of change points.
+\item{num_change_point}{optimal number of change points.}
+  \item{change_point}{location of change points.}
 }
 \description{
 Detect the number and locations of change points based on minimizing within

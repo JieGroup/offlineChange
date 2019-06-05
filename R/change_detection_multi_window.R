@@ -34,9 +34,12 @@
 #' @param num_init The number of repetition times, in order to avoid local
 #'   minimal. Default is squared root of number of transformed data.
 #' @param tolerance The tolerance level. The selected narrow ranges are with
+#' @param cpp Option to accelerate using rcpp. Default is TRUE.
 #'   score at least S-tolerance.
-#' @return A list of following elements: n_peak_range: The number of peak ranges.
-#'   peak_ranges: The location of peak ranges.
+#' @importFrom Rcpp evalCpp
+#' @return
+#'   \item{n_peak_range}{The number of peak ranges.}
+#'   \item{peak_ranges}{The location of peak ranges.}
 #' @export
 #' @examples
 #' N <- 1000
@@ -67,8 +70,10 @@ MultiWindow <- function(y,
                         get_mle     = GetMle,
                         penalty     = "bic",
                         seg_min     = 1,
-                        num_init    = "sqrt",
-                        tolerance   = 1) {
+                        num_init    = NULL,
+                        tolerance   = 1,
+                        cpp         = TRUE
+                        ) {
   len <- length(y)
   n_window_type <- length(window_list)
   # initialize score matrix
@@ -90,7 +95,7 @@ MultiWindow <- function(y,
       #print("change_point")
       #test
       # Get the change points of transformed data
-      change_point <- ChangePoints(x,point_max=point_max,penalty=penalty,seg_min=1,num_init=num_init)$change_point
+      change_point <- ChangePoints(x,point_max=point_max,penalty=penalty,seg_min=1,num_init=num_init,cpp=cpp)$change_point
     } else {
       # Transform prior_range to transformed_range according to window size
       trans_prior_range <- list()
