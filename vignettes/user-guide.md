@@ -1,21 +1,19 @@
 ---
 title: "User Guide for 'offlineChange' R package"
 author: "Jiahuan Ye, Jie Ding"
-date: "June 5, 2019"
+date: "April 30, 2019"
 output: 
   rmarkdown::html_vignette:
     toc: true
     # theme: united
     # highlight: zenburn
 vignette: >
-  %\VignetteIndexEntry{User Guide for 'offlineChange' R package}
+  %\VignetteIndexEntry{user-guide}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 <!--output: 
   pdf_document: 
@@ -28,7 +26,8 @@ This vignette serves as a quick guide on how to use the 'offlineChange' R packag
 
 Suppose there is a sequence of one-dimentional dependent data, and the true number of change points is unknown, then the following function can be used to return the ranges that are most likely to contain the true change points. A list of window sizes (window\_list) is specified by the user. Each window size should be less than the number of observations. The purpose of these windows, as explained in the reference paper, are used to divide the original data into segments so that the data can be transformed. The largest number of changes (point_max) should be specified by the user as well. 
 
-```{r eval=FALSE}
+
+```r
 library(offlineChange)
 # Data
 N <- 1000
@@ -55,13 +54,15 @@ result <- MultiWindow(y,
                       point_max   = 5)
 ```
 The returned results contain the number of peak ranges and location of peak ranges:
-```{r eval=FALSE}
+
+```r
 result$n_peak_range
 result$peak_range
 ```
 
 The users can also modify some other default arguments:
-```{r eval=FALSE}
+
+```r
 result <- MultiWindow(y, 
                       window_list = c(100, 50, 20, 10, 5), 
                       point_max   = 5,
@@ -71,13 +72,13 @@ result <- MultiWindow(y,
                       seg_min     = 1, 
                       num_init    = NULL, 
                       tolerance   = 1,
-                      cpp         = TRUE,
-                      ret_score   = FALSE
+                      cpp         = TRUE
                       )
 ```
 
 Based on the peak ranges returned, users can use the following function to get exact change points:
-```{r eval=FALSE}
+
+```r
 result <- MultiWindow(y,
                       window_list = c(100,50,20,10,5),
                       point_max   = 5)
@@ -86,35 +87,20 @@ RangeToPoint(y,
              n_peak_range = result$n_peak_range,
              peak_range   = result$peak_range)
 ```
-Based on the peak ranges returned, users can also plot them:
-```{r eval=FALSE}
-result <- MultiWindow(y,
-                      window_list = c(100,50,20,10,5),
-                      point_max   = 5)
-
-ChangePointsPlot(y,result,main="plot of change points")
-```
-Or, users can plot the score that represents how likely the range contains change points.
-```{r eval=FALSE}
-result <- MultiWindow(y,
-                      window_list = c(100,50,20,10,5),
-                      point_max   = 5,
-                      ret_score=TRUE)
-
-ScorePlot(result, main="score plot")
-```
 
 ## Detect change points of dependent data with prior change ranges
 
 Suppose there is a sequence of one-dimentional dependent data, and the user already know prior ranges that change points should be within. Then the following function can be used to return the (narrower) ranges that are most likely to contain the true change points, with much less computational cost compared with the previous method. 
-```{r eval=FALSE}
+
+```r
 result <- MultiWindow(y,
                       window_list = c(100,50,20,10,5),
                       prior_range = list(c(30,200),c(220,400)))
 ```
 
 And the users can also change some default arguments. In particular, 'get_mle' is the data transformation method that can be provided by users. Typically, it is chosen to be the function that input data and output an estimate of unknown parameters assuming that the data is generated from a parametric family.
-```{r eval=FALSE}
+
+```r
 result <- MultiWindow(y, 
                       window_list = c(100, 50, 20, 10, 5), 
                       prior_range = list(c(30,200), c(220,400)),
@@ -122,7 +108,8 @@ result <- MultiWindow(y,
                       tolerance   = 1)
 ```
 Based on the peak ranges returned, users can use the following function to get exact change points:
-```{r eval=FALSE}
+
+```r
 result <- MultiWindow(y,
                       window_list = c(100,50,20,10,5),
                       prior_range = list(c(30,200), c(220,400)))
@@ -136,7 +123,8 @@ RangeToPoint(y,
 
 Suppose there is a sequence of independent data with dimension L+1, and the true number of change points is unknown, then the following function can be used to return the change points. Like before, the largest number of changes (point_max) should be specified by the user. 
 
-```{r eval=FALSE}
+
+```r
 # Data
 a <- matrix(rnorm(40,mean=-1,sd=1), nrow=20, ncol=2)
 b <- matrix(rnorm(120,mean=0,sd=1), nrow=60, ncol=2)
@@ -145,7 +133,8 @@ x <- rbind(a,b,c)
 result <- ChangePoints(x, point_max = 5)
 ```
 And the users can also modify some default arguments:
-```{r eval=FALSE}
+
+```r
 result <- ChangePoints(x,
                        point_max = 5,
                        penalty   = c("bic","aic"),
@@ -158,23 +147,27 @@ result <- ChangePoints(x,
 
 Suppose there is a sequence of independent multivariate data, and the true number of change points is already known, then the following function can be used to return the change points. Here, K is the number of change points instead of the number of segments.
 
-```{r eval=FALSE}
+
+```r
 result <- OrderKmeans(x, K = 2)
 ```
 And the users can also change the suggested setting of arguments:
-```{r eval=FALSE}
+
+```r
 result <- OrderKmeans(x, K = 2, num_init=NULL)
 ```
 
 ## Detect change points of independent data with prior change ranges
 Suppose there is a sequence of independent multivariate data, and the user already know prior ranges that change points should be within, then the following function can be used to return change points, and the prior knowledge of ranges of change points can make the cumputation more efficient and the return change points more accurate. 
-```{r eval=FALSE}
+
+```r
 l1 <- c(15,25)
 l2 <- c(75,100)
 prior_range_x <- list(l1, l2)
 result <- PriorRangeOrderKmeans(x, prior_range_x = list(l1,l2))
 ```
 And the users can also modify some default arguments:
-```{r eval=FALSE}
+
+```r
 result <- PriorRangeOrderKmeans(x, prior_range_x, num_init=NULL)
 ```
