@@ -7,6 +7,10 @@ output:
     toc: true
     # theme: united
     # highlight: zenburn
+vignette: >
+  %\VignetteIndexEntry{User Guide for 'offlineChange' R package}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup, include=FALSE}
