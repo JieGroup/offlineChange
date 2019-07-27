@@ -26,7 +26,7 @@ prior_range=list(c(30,200),c(220,400))}
 \item{get_mle}{The method used to transform dependent data to independent
 data.}
 
-\item{penalty}{Penalty term. Default is "bic".}
+\item{penalty}{Penalty type term. Default is "bic". Users can use other penalty term.}
 
 \item{seg_min}{Minimal segment size, must be positive integer.}
 
