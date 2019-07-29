@@ -10,9 +10,9 @@ Depends: R (>= 3.6.0)
 License: GPL-3 
 Encoding: UTF-8
 LazyData: true
-Imports: graphics (>= 3.6.0),
-         utils (>= 3.6.0),
-         stats (>= 3.6.0),
+Imports: graphics,
+         utils,
+         stats,
          Rcpp (>= 1.0.1)
 LinkingTo: Rcpp
 RoxygenNote: 6.1.1
