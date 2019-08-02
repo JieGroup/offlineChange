@@ -48,6 +48,8 @@ ChangePoints <- function(x,point_max=5,penalty="bic",seg_min=1,num_init=NULL,cpp
   best_wgss_penalty <- Inf
   # Make sure the number of change points is no larger than N-1.
   point_max <- min(point_max,N-1)
+  # Set the lower bound of number of change points as 1.
+  point_max <- max(point_max, 1)
 
   # K = number of change points
 

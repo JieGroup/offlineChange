@@ -34,12 +34,14 @@
 #' @param num_init The number of repetition times, in order to avoid local
 #'   minimal. Default is squared root of number of transformed data.
 #' @param tolerance The tolerance level. The selected narrow ranges are with
-#' @param cpp Option to accelerate using rcpp. Default is TRUE.
-#'   score at least S-tolerance.
+#' @param cpp Logical value indicating whether to accelerate using rcpp. Default is TRUE.
+#' @param ret_score Logical value indicating whether to return score. Default is FALSE.
+#' 
 #' @importFrom Rcpp evalCpp
 #' @return
 #'   \item{n_peak_range}{The number of peak ranges.}
 #'   \item{peak_ranges}{The location of peak ranges.}
+#'   \item{score}{score matrix. (only when \emph{ret_score} is \emph{TRUE})}
 #' @export
 #' @examples
 #' N <- 1000
@@ -72,7 +74,8 @@ MultiWindow <- function(y,
                         seg_min     = 1,
                         num_init    = NULL,
                         tolerance   = 1,
-                        cpp         = TRUE
+                        cpp         = TRUE,
+                        ret_score   = FALSE
                         ) {
   len <- length(y)
   n_window_type <- length(window_list)
@@ -127,6 +130,10 @@ MultiWindow <- function(y,
     point_max <- length(prior_range)
   }
   peakranges <- PeakRange(score=score,tolerance=tolerance,point_max=point_max)
-  return(peakranges)
+  result <- list(n_peak_range=peakranges$n_peak_range, peak_range=peakranges$peak_range)
+  if (ret_score) {
+   result$score <- score
+  }
+  return(result)
   #return(score)
 }
