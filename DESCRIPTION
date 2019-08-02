@@ -1,12 +1,12 @@
 Package: offlineChange
 Title: Detect Multiple Change Points from Time Series
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person("Jiahuan", "Ye", email = "jiahuanye431@gmail.com", role = c("aut","trl","cre")),
     person("Jie", "Ding", email = "dingj@umn.edu", role = c("aut")))
 Description: Detect the number and locations of change points. The locations can be either exact or in terms of ranges, 
             depending on the available computational resource. The method is based on Jie Ding, Yu Xiang, Lu Shen, Vahid Tarokh (2016) <arXiv:1605.00346v2>.
-Depends: R (>= 3.6.0)
+Depends: R (>= 3.5.0)
 License: GPL-3 
 Encoding: UTF-8
 LazyData: true

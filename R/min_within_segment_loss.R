@@ -13,7 +13,7 @@
 #'
 #' @param x The data to find change points.
 #' @param point_max The largest candidate number of change points.
-#' @param penalty Penalty term. Default is "bic".
+#' @param penalty Penalty type term. Default is "bic". Users can use other penalty term.
 #' @param seg_min Minimal segment size, must be positive integer.
 #' @param num_init The number of repetition times, in order to avoid local
 #'   minimal. Default is squared root of number of observations. Must be integer.
@@ -43,7 +43,7 @@ ChangePoints <- function(x,point_max=5,penalty="bic",seg_min=1,num_init=NULL,cpp
   #sigma2<-sum(apply(x,2,var))
   #wgss_list=list()
   #wgss_list_penalty=list()
-  wgss_llist_sigma=list()
+  #wgss_llist_sigma=list()
   #wgss_llist_2sigma=list()
   best_wgss_penalty <- Inf
   # Make sure the number of change points is no larger than N-1.
@@ -84,9 +84,11 @@ ChangePoints <- function(x,point_max=5,penalty="bic",seg_min=1,num_init=NULL,cpp
       wgss_penalty <- sum(num_each * log(wgss/num_each)) + 2 * D * K
     } else if (penalty == "hq") {
       wgss_penalty <- sum(num_each * log(wgss/num_each)) + D * K * log(log(N))
+    } else {
+      wgss_penalty <- do.call(penalty,list(num_each, wgss, D, K, N))
     }
     #wgss_list_penalty=c(wgss_list_penalty,wgss_penalty_new)
-    wgss_llist_sigma=c(wgss_llist_sigma,wgss_penalty)
+    #wgss_llist_sigma=c(wgss_llist_sigma,wgss_penalty)
     #wgss_llist_2sigma=c(wgss_llist_2sigma,wgss/(2*sigma2)+K*penalty)
     #test
     #print(penalty)

@@ -29,7 +29,7 @@
 #'   prior_range=list(c(30,200),c(220,400))
 #' @param get_mle The method used to transform dependent data to independent
 #'   data.
-#' @param penalty Penalty term. Default is "bic".
+#' @param penalty Penalty type term. Default is "bic". Users can use other penalty term.
 #' @param seg_min Minimal segment size, must be positive integer.
 #' @param num_init The number of repetition times, in order to avoid local
 #'   minimal. Default is squared root of number of transformed data.
@@ -88,7 +88,7 @@ MultiWindow <- function(y,
     window_size <- window_list[r]
     n_window <- ceiling(len/window_size)
     # Get transformed approximated independent data
-    x <- GetMle(y, window_size=window_size)
+    x <- get_mle(y, window_size=window_size)
     # if the data is a list, transform it into matrix
     if (class(x) != "matrix") {
       x <- as.matrix(x)

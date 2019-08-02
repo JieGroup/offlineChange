@@ -12,7 +12,7 @@ ChangePoints(x, point_max = 5, penalty = "bic", seg_min = 1,
 
 \item{point_max}{The largest candidate number of change points.}
 
-\item{penalty}{Penalty term. Default is "bic".}
+\item{penalty}{Penalty type term. Default is "bic". Users can use other penalty term.}
 
 \item{seg_min}{Minimal segment size, must be positive integer.}
 
