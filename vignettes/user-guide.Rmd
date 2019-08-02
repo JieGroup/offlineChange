@@ -1,7 +1,7 @@
 ---
 title: "User Guide for 'offlineChange' R package"
 author: "Jiahuan Ye, Jie Ding"
-date: "June 5, 2019"
+date: "July 25, 2019"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -75,7 +75,7 @@ result <- MultiWindow(y,
                       ret_score   = FALSE
                       )
 ```
-
+The argument *cpp* indicates whether to increase computation speed using rcpp. The acceleration only works without prior range.
 Based on the peak ranges returned, users can use the following function to get exact change points:
 ```{r eval=FALSE}
 result <- MultiWindow(y,
@@ -86,7 +86,7 @@ RangeToPoint(y,
              n_peak_range = result$n_peak_range,
              peak_range   = result$peak_range)
 ```
-Based on the peak ranges returned, users can also plot them:
+Based on the peak ranges returned, users can also plot them on original data. Blue line and red line represent the start and end of a peak range.
 ```{r eval=FALSE}
 result <- MultiWindow(y,
                       window_list = c(100,50,20,10,5),
@@ -94,7 +94,7 @@ result <- MultiWindow(y,
 
 ChangePointsPlot(y,result,main="plot of change points")
 ```
-Or, users can plot the score that represents how likely the range contains change points.
+Or, users can plot the score that represents how likely the range contains change points. The higher score a range has, the more likely the range contains change point. The argument *ret_score* must be TRUE inorder to get score plot.
 ```{r eval=FALSE}
 result <- MultiWindow(y,
                       window_list = c(100,50,20,10,5),

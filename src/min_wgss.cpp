@@ -194,7 +194,7 @@ List OrderKmeansCpp(NumericMatrix x, int K=4, int num_init=10) {
   }
   // Delete the last observation from change points
   best_change_point = best_change_point + 1;
-  best_change_point.erase(M);
+  best_change_point.erase(M-1);
 
   //k_changepints=list(wgss_sum=best_wgss_sum,num_each=best_num_each,wgss=best_wgss,change_point=best_change_point)
   return List::create(Named("wgss_sum") = best_wgss_sum,

@@ -23,7 +23,6 @@ The blue solid line is the start of a peak range and the red dashed line
 is the end of that peak range.
 }
 \examples{
-\dontrun{
 N <- 1000
 N1 <- floor(0.1*N)
 N2 <- floor(0.3*N)
@@ -45,7 +44,6 @@ for (n in (L+1):N){
 }
 result <- MultiWindow(y,window_list=c(100,50,20,10,5),point_max=5)
 ChangePointsPlot(y,result)
-}
 }
 \references{
 J. Ding, Y. Xiang, L. Shen, and V. Tarokh, \emph{Multiple Change

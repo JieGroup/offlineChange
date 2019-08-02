@@ -18,7 +18,6 @@
 #' @importFrom utils tail
 #' @export
 #' @examples
-#' \dontrun{
 #' N <- 1000
 #' N1 <- floor(0.1*N)
 #' N2 <- floor(0.3*N)
@@ -40,7 +39,6 @@
 #' }
 #' result <- MultiWindow(y,window_list=c(100,50,20,10,5),point_max=5)
 #' ChangePointsPlot(y,result)
-#' }
  
 ChangePointsPlot <- function(y,result, ...) {
   peak_range <- result$peak_range
